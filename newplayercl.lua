@@ -4,6 +4,12 @@ end
 Freeze = false
 
 CreateThread(function()
+	while true do
+        print('asdasdasdasdasd')
+	Wait(1)		
+end)
+
+CreateThread(function()
 	if Config.Setting.NPC.Show then
 		RequestModel(GetHashKey(Config.Setting.NPC.ModelName))
 		while not HasModelLoaded(GetHashKey(Config.Setting.NPC.ModelName)) do
